@@ -1,0 +1,80 @@
+
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the “ea-php74” package as the default “PHP” programming language.
+# <IfModule mime_module>
+#   AddHandler application/x-httpd-ea-php74 .php .php7 .phtml
+# </IfModule>
+# php -- END cPanel-generated handler, do not edit
+
+
+
+
+
+
+
+
+# =========================================================
+# cPanel PHP CONFIGURATION
+# =========================================================
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the “ea-php74” package as the default “PHP” programming language.
+<IfModule mime_module>
+    AddHandler application/x-httpd-ea-php74 .php .php7 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit
+
+
+# =========================================================
+# SECURITY - PREVENT DIRECTORY LISTING
+# =========================================================
+
+Options -Indexes
+
+
+# =========================================================
+# BLOCK DIRECT ACCESS TO SERVER-SIDE DIRECTORIES
+# =========================================================
+
+RewriteEngine On
+
+RewriteRule ^routes(?:/|$) - [F,L]
+RewriteRule ^node_modules(?:/|$) - [F,L]
+RewriteRule ^temp(?:/|$) - [F,L]
+RewriteRule ^tmp(?:/|$) - [F,L]
+
+
+# =========================================================
+# BLOCK NODE.JS SERVER FILES
+# =========================================================
+
+<FilesMatch ".*\.js$">
+
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+
+</FilesMatch>
+
+# =========================================================
+# BLOCK PACKAGE / ENV / GIT FILES
+# =========================================================
+
+<FilesMatch "^(package\.json|package-lock\.json|\.env|\.gitignore)$">
+
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+
+</FilesMatch>

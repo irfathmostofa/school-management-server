@@ -1,0 +1,1011 @@
+{
+  "academic_calendar": [
+    [
+      "title",
+      "start",
+      "end",
+      "event_Type"
+    ]
+  ],
+  "admin_evaluation_form": [
+    [
+      "Form_ID"
+    ]
+  ],
+  "admission": [
+    [
+      "session",
+      "form_number",
+      "campus"
+    ]
+  ],
+  "AIT_parameter": [
+    [
+      "minValue",
+      "gender",
+      "session"
+    ]
+  ],
+  "AIT_Report": [
+    [
+      "emp_id",
+      "month",
+      "session"
+    ]
+  ],
+  "alumni_student": [
+    [
+      "student_id"
+    ]
+  ],
+  "attendance": [
+    [
+      "empID",
+      "date"
+    ]
+  ],
+  "class_coordinator": [
+    [
+      "class",
+      "session"
+    ]
+  ],
+  "class_routine": [
+    [
+      "session",
+      "className",
+      "section",
+      "dayName",
+      "slotName"
+    ]
+  ],
+  "class_teacher": [
+    [
+      "class",
+      "section",
+      "session"
+    ]
+  ],
+  "clearance_form": [
+    [
+      "emp_id"
+    ]
+  ],
+  "compensation_benefits": [
+    [
+      "emp_id"
+    ]
+  ],
+  "customer": [
+    [
+      "mobile_no"
+    ]
+  ],
+  "department_meeting": [
+    [
+      "department",
+      "meeting_date",
+      "session"
+    ]
+  ],
+  "employee": [
+    [
+      "emp_id"
+    ]
+  ],
+  "employee_allowance": [
+    [
+      "emp_id"
+    ]
+  ],
+  "employee_attendance_salary": [
+    [
+      "emp_id"
+    ],
+    [
+      "emp_id",
+      "session"
+    ]
+  ],
+  "employee_salary_account": [
+    [
+      "emp_id"
+    ],
+    [
+      "account_number"
+    ]
+  ],
+  "employee_salary_management": [
+    [
+      "emp_id"
+    ]
+  ],
+  "ExamSchedule": [
+    [
+      "classId",
+      "term",
+      "session"
+    ]
+  ],
+  "expense_head": [
+    [
+      "expense_head"
+    ]
+  ],
+  "final_salary_sheet": [
+    [
+      "emp_id",
+      "report_month",
+      "session"
+    ]
+  ],
+  "grading_marks": [
+    [
+      "className",
+      "grade",
+      "session"
+    ]
+  ],
+  "invoice": [
+    [
+      "invoice_id"
+    ]
+  ],
+  "item_issue_list": [
+    [
+      "issue_id",
+      "product_id"
+    ]
+  ],
+  "item_return_list": [
+    [
+      "return_id",
+      "issue_id",
+      "product_id"
+    ]
+  ],
+  "junior_school_segment_result": [
+    [
+      "termName",
+      "subject",
+      "student_id",
+      "segmentName",
+      "contentName",
+      "session"
+    ]
+  ],
+  "junior_school_subject_segments": [
+    [
+      "session",
+      "termName",
+      "className",
+      "subjectName"
+    ]
+  ],
+  "junior_student_term_report": [
+    [
+      "student_id",
+      "subject",
+      "termName",
+      "className",
+      "section",
+      "session"
+    ]
+  ],
+  "lessonPlan": [
+    [
+      "termName",
+      "className",
+      "subjectName",
+      "chapterName",
+      "topicName",
+      "lessonName",
+      "session"
+    ]
+  ],
+  "library_items": [
+    [
+      "product_id"
+    ],
+    [
+      "product_id",
+      "campus"
+    ]
+  ],
+  "monthly_progress_report": [
+    [
+      "class_name",
+      "campus",
+      "term",
+      "fromDate",
+      "toDate",
+      "session"
+    ]
+  ],
+  "newRoutine": [
+    [
+      "class_name",
+      "section_name",
+      "campus",
+      "session",
+      "day",
+      "period_id"
+    ],
+    [
+      "class_name",
+      "section_name",
+      "campus",
+      "session",
+      "day",
+      "period_id"
+    ]
+  ],
+  "overTime_payroll": [
+    [
+      "emp_id",
+      "report_month"
+    ]
+  ],
+  "parents_login": [
+    [
+      "parents_id"
+    ],
+    [
+      "phone"
+    ]
+  ],
+  "parent_login_information": [
+    [
+      "student_id"
+    ]
+  ],
+  "products": [
+    [
+      "product_id"
+    ]
+  ],
+  "quotation": [
+    [
+      "quotation_id"
+    ]
+  ],
+  "requisition_timeline": [
+    [
+      "requisition_id",
+      "type",
+      "user",
+      "userId"
+    ]
+  ],
+  "resignation_request": [
+    [
+      "applicantIdNo"
+    ]
+  ],
+  "role": [
+    [
+      "roleName"
+    ]
+  ],
+  "salary_report_by_HR": [
+    [
+      "emp_id",
+      "report_month",
+      "session"
+    ]
+  ],
+  "sold_form": [
+    [
+      "form_number"
+    ]
+  ],
+  "store_product": [
+    [
+      "product_id"
+    ]
+  ],
+  "student": [
+    [
+      "student_id"
+    ]
+  ],
+  "Student_Attendance": [
+    [
+      "student_id",
+      "class",
+      "section",
+      "date",
+      "school",
+      "session"
+    ]
+  ],
+  "student_classtest_response": [
+    [
+      "student_id",
+      "termName",
+      "className",
+      "section",
+      "subject",
+      "selectedTestID",
+      "session"
+    ]
+  ],
+  "student_classwork_response": [
+    [
+      "student_id",
+      "className",
+      "school",
+      "termName",
+      "subject",
+      "selectedWorkID",
+      "session"
+    ]
+  ],
+  "student_class_performance": [
+    [
+      "student_id",
+      "term",
+      "session",
+      "subject"
+    ]
+  ],
+  "student_diary": [
+    [
+      "student_id",
+      "class",
+      "section",
+      "subject",
+      "date",
+      "session"
+    ]
+  ],
+  "student_homework_list": [
+    [
+      "termName",
+      "className",
+      "section",
+      "subject",
+      "title",
+      "date",
+      "weekly_date_id"
+    ]
+  ],
+  "student_homework_response": [
+    [
+      "student_id",
+      "className",
+      "school",
+      "subject",
+      "selectedWorkID",
+      "session",
+      "termName"
+    ]
+  ],
+  "student_login_information": [
+    [
+      "student_id"
+    ]
+  ],
+  "student_performance": [
+    [
+      "studentId",
+      "term",
+      "session"
+    ]
+  ],
+  "student_preSchool_term_report": [
+    [
+      "type",
+      "termName",
+      "className",
+      "student_id",
+      "section",
+      "session"
+    ]
+  ],
+  "student_term_project_response": [
+    [
+      "session",
+      "student_id",
+      "termName",
+      "className",
+      "section",
+      "school",
+      "subject"
+    ]
+  ],
+  "student_term_report": [
+    [
+      "student_id",
+      "termName",
+      "className",
+      "session",
+      "subject"
+    ]
+  ],
+  "teacher_evaluation": [
+    [
+      "teacherID",
+      "termName",
+      "session",
+      "className",
+      "section"
+    ]
+  ],
+  "term_report_parameter": [
+    [
+      "className",
+      "subject_name",
+      "session"
+    ]
+  ],
+  "title": [
+    [
+      "title"
+    ]
+  ],
+  "users": [
+    [
+      "username"
+    ],
+    [
+      "email",
+      "emp_id"
+    ]
+  ],
+  "admission_test": [
+    [
+      "id"
+    ]
+  ],
+  "admission_test_subjects": [
+    [
+      "id"
+    ]
+  ],
+  "amount_transfer": [
+    [
+      "transfer_id"
+    ]
+  ],
+  "appointment_letter": [
+    [
+      "id"
+    ]
+  ],
+  "assign_discount": [
+    [
+      "id"
+    ]
+  ],
+  "assign_route": [
+    [
+      "id"
+    ]
+  ],
+  "bank": [
+    [
+      "id"
+    ]
+  ],
+  "budget": [
+    [
+      "id"
+    ]
+  ],
+  "budget_items": [
+    [
+      "id"
+    ]
+  ],
+  "calendar_assigned_user_note": [
+    [
+      "ID"
+    ]
+  ],
+  "calendar_stickynote": [
+    [
+      "sticky_ID"
+    ]
+  ],
+  "calendar_task_comment": [
+    [
+      "comment_ID"
+    ]
+  ],
+  "calendar_task_guest": [
+    [
+      "ID"
+    ]
+  ],
+  "calendar_task_list": [
+    [
+      "task_ID"
+    ]
+  ],
+  "campus": [
+    [
+      "campus_id"
+    ]
+  ],
+  "class_name": [
+    [
+      "id"
+    ]
+  ],
+  "club": [
+    [
+      "id"
+    ]
+  ],
+  "club_student": [
+    [
+      "id"
+    ]
+  ],
+  "complain_box": [
+    [
+      "id"
+    ]
+  ],
+  "Confirmation_letter": [
+    [
+      "id"
+    ]
+  ],
+  "daily_task": [
+    [
+      "id"
+    ]
+  ],
+  "department": [
+    [
+      "id"
+    ]
+  ],
+  "designation": [
+    [
+      "id"
+    ]
+  ],
+  "discount": [
+    [
+      "id"
+    ]
+  ],
+  "discount_type": [
+    [
+      "id"
+    ]
+  ],
+  "Eligible_admit_card": [
+    [
+      "id"
+    ]
+  ],
+  "employee_attendance_period": [
+    [
+      "id"
+    ]
+  ],
+  "employee_contact": [
+    [
+      "id"
+    ]
+  ],
+  "evaluation_all_answer": [
+    [
+      "id"
+    ]
+  ],
+  "evaluation_all_by": [
+    [
+      "id"
+    ]
+  ],
+  "evaluation_all_questions": [
+    [
+      "ev_ID"
+    ]
+  ],
+  "events": [
+    [
+      "id"
+    ]
+  ],
+  "event_news": [
+    [
+      "id"
+    ]
+  ],
+  "event_task": [
+    [
+      "id"
+    ]
+  ],
+  "evolutionanswers": [
+    [
+      "id"
+    ]
+  ],
+  "evolutionquestions": [
+    [
+      "id"
+    ]
+  ],
+  "exit_application": [
+    [
+      "id"
+    ]
+  ],
+  "experience_certificate": [
+    [
+      "id"
+    ]
+  ],
+  "extra_class": [
+    [
+      "id"
+    ]
+  ],
+  "extra_facilities": [
+    [
+      "id"
+    ]
+  ],
+  "feeInfo": [
+    [
+      "id"
+    ]
+  ],
+  "feesType": [
+    [
+      "id"
+    ]
+  ],
+  "fees_collection": [
+    [
+      "id"
+    ]
+  ],
+  "fp_sp_item": [
+    [
+      "id"
+    ]
+  ],
+  "fund_request": [
+    [
+      "id"
+    ]
+  ],
+  "grn": [
+    [
+      "id"
+    ]
+  ],
+  "grn_item": [
+    [
+      "id"
+    ]
+  ],
+  "group": [
+    [
+      "id"
+    ]
+  ],
+  "group_assign_students": [
+    [
+      "id"
+    ]
+  ],
+  "group_project_comments": [
+    [
+      "id"
+    ]
+  ],
+  "hifz_daily_progress": [
+    [
+      "id"
+    ]
+  ],
+  "hifz_spr": [
+    [
+      "id"
+    ]
+  ],
+  "hifz_spr_students": [
+    [
+      "id"
+    ]
+  ],
+  "hifz_student": [
+    [
+      "id"
+    ]
+  ],
+  "hifz_term_target_setup": [
+    [
+      "id"
+    ]
+  ],
+  "house": [
+    [
+      "id"
+    ]
+  ],
+  "hr_letter": [
+    [
+      "id"
+    ]
+  ],
+  "incidentReport": [
+    [
+      "id"
+    ]
+  ],
+  "income_head": [
+    [
+      "id"
+    ]
+  ],
+  "income_items": [
+    [
+      "id"
+    ]
+  ],
+  "karz_request": [
+    [
+      "id"
+    ]
+  ],
+  "leave_application": [
+    [
+      "id"
+    ]
+  ],
+  "mdr": [
+    [
+      "id"
+    ]
+  ],
+  "mdr_item": [
+    [
+      "id"
+    ]
+  ],
+  "mtb_bill_list": [
+    [
+      "id"
+    ]
+  ],
+  "noc_letter": [
+    [
+      "id"
+    ]
+  ],
+  "notifications": [
+    [
+      "id"
+    ]
+  ],
+  "online_admission": [
+    [
+      "id"
+    ]
+  ],
+  "online_transaction": [
+    [
+      "id"
+    ]
+  ],
+  "other_leave": [
+    [
+      "id"
+    ]
+  ],
+  "patty_cash": [
+    [
+      "id"
+    ]
+  ],
+  "patty_cash_item": [
+    [
+      "id"
+    ]
+  ],
+  "payment": [
+    [
+      "id"
+    ]
+  ],
+  "periods": [
+    [
+      "id"
+    ]
+  ],
+  "po": [
+    [
+      "id"
+    ]
+  ],
+  "postal_dispatch": [
+    [
+      "id"
+    ]
+  ],
+  "postal_receive": [
+    [
+      "id"
+    ]
+  ],
+  "po_item": [
+    [
+      "id"
+    ]
+  ],
+  "privileges": [
+    [
+      "id"
+    ]
+  ],
+  "product_category": [
+    [
+      "id"
+    ]
+  ],
+  "product_transfer": [
+    [
+      "id"
+    ]
+  ],
+  "publish_result": [
+    [
+      "id"
+    ]
+  ],
+  "quotation_item": [
+    [
+      "id"
+    ]
+  ],
+  "recruitment_applicant_list": [
+    [
+      "id"
+    ]
+  ],
+  "recruitment_request": [
+    [
+      "id"
+    ]
+  ],
+  "requisition": [
+    [
+      "id"
+    ]
+  ],
+  "requisition_approve": [
+    [
+      "id"
+    ]
+  ],
+  "requisition_cs": [
+    [
+      "id"
+    ]
+  ],
+  "requisition_item": [
+    [
+      "id"
+    ]
+  ],
+  "school": [
+    [
+      "id"
+    ]
+  ],
+  "section": [
+    [
+      "id"
+    ]
+  ],
+  "session": [
+    [
+      "id"
+    ]
+  ],
+  "store_product_item": [
+    [
+      "id"
+    ]
+  ],
+  "student_category": [
+    [
+      "id"
+    ]
+  ],
+  "student_classtest_list": [
+    [
+      "id"
+    ]
+  ],
+  "student_classwork_list": [
+    [
+      "id"
+    ]
+  ],
+  "student_extra_facilities": [
+    [
+      "id"
+    ]
+  ],
+  "student_income": [
+    [
+      "id"
+    ]
+  ],
+  "student_promotion": [
+    [
+      "id"
+    ]
+  ],
+  "subject_list": [
+    [
+      "id"
+    ]
+  ],
+  "substitute_teacher": [
+    [
+      "id"
+    ]
+  ],
+  "supplier": [
+    [
+      "id"
+    ]
+  ],
+  "supply_payment": [
+    [
+      "id"
+    ]
+  ],
+  "TCapplication": [
+    [
+      "id"
+    ]
+  ],
+  "temporary_pass": [
+    [
+      "id"
+    ]
+  ],
+  "transport_route": [
+    [
+      "id"
+    ]
+  ],
+  "user_id_prefix": [
+    [
+      "id"
+    ]
+  ],
+  "vendor": [
+    [
+      "id"
+    ]
+  ],
+  "vistor_book": [
+    [
+      "id"
+    ]
+  ],
+  "weeklyDates": [
+    [
+      "id"
+    ]
+  ],
+  "weeklyLessonPlans": [
+    [
+      "id"
+    ]
+  ]
+}

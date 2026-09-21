@@ -1,0 +1,35 @@
+const express = require("express");
+const router = express.Router();
+const ctrl = require("../controllers/frontOfficeController");
+
+router.post("/getAllEmployee", ctrl.getAllEmployee);
+router.post("/addEmployeeContact", ctrl.addEmployeeContact);
+router.post("/getEmployeeContactData", ctrl.getEmployeeContactData);
+router.post("/getEmployeeContactDataById", ctrl.getEmployeeContactDataById);
+router.post("/UpdateEmployeeContact", ctrl.UpdateEmployeeContact);
+router.post("/addVisitorBook", ctrl.addVisitorBook);
+router.post("/updateVisitorBook", ctrl.updateVisitorBook);
+router.post("/getVisitorBook", ctrl.getVisitorBook);
+router.post("/DeleteVisitorBook", ctrl.DeleteVisitorBook);
+router.post("/addComplainBox", ctrl.addComplainBox);
+router.post("/getComplainBoxData", ctrl.getComplainBoxData);
+router.post("/getComplainBoxDataByUser", ctrl.getComplainBoxDataByUser);
+router.post("/DeleteComplainBoxDataById", ctrl.DeleteComplainBoxDataById);
+router.post("/getComplainBoxDataById", ctrl.getComplainBoxDataById);
+router.post("/UpdateComplainBox", ctrl.UpdateComplainBox);
+router.post("/addPostalDispatch", ctrl.addPostalDispatch);
+router.post("/getPostalDispatchData", ctrl.getPostalDispatchData);
+router.post("/getPostalDispatchDataById", ctrl.getPostalDispatchDataById);
+router.post("/deletePostalDispatchDataById", ctrl.deletePostalDispatchDataById);
+router.post("/deletePostalReceiveDataById", ctrl.deletePostalReceiveDataById);
+router.post("/getPostalReceiveData", ctrl.getPostalReceiveData);
+router.post("/getPostalReceiveDataById", ctrl.getPostalReceiveDataById);
+router.post("/UpdatePostalDispatch", ctrl.UpdatePostalDispatch);
+router.post("/addPostalReceive", ctrl.addPostalReceive);
+router.post("/UpdatePostalReceive", ctrl.UpdatePostalReceive);
+router.post("/getEventNews", ctrl.getEventNews);
+router.post("/addEventNews", ctrl.addEventNews);
+router.post("/deleteEventNews", ctrl.deleteEventNews);
+router.get("/frontOfficeTest", ctrl.frontOfficeTest);
+
+module.exports = router;
