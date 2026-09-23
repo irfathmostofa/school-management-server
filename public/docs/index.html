@@ -90,6 +90,34 @@
       margin-top: 10px; background: #0b1016; border: 1px solid var(--line); border-radius: 8px;
       padding: 10px 12px; overflow: auto; color: #d7e3f0; font-size: 12px; line-height: 1.45;
     }
+    .nav-mod { margin-bottom: 10px; }
+    .nav-mod > a { font-weight: 600; color: var(--text); }
+    .nav-sections { margin: 2px 0 4px 8px; padding-left: 8px; border-left: 1px solid var(--line); }
+    .nav-sections a { padding: 3px 8px; font-size: 12px; }
+    .section {
+      position: relative;
+      margin: 14px 0 18px;
+      padding: 12px 12px 8px 14px;
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+    }
+    .section::before {
+      content: "";
+      position: absolute;
+      left: 0; top: 10px; bottom: 10px; width: 3px;
+      border-radius: 2px;
+      background: var(--section, var(--accent));
+    }
+    .section-head {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      margin: 0 0 10px; padding: 0 2px 8px; border-bottom: 1px solid var(--line);
+    }
+    .section-head h3 {
+      margin: 0; font-size: 12px; font-weight: 700; letter-spacing: .05em;
+      text-transform: uppercase; color: var(--section, var(--accent));
+    }
+    .section .route { background: var(--panel); }
     @media (max-width: 860px) {
       .layout { grid-template-columns: 1fr; }
       .sidebar { position: relative; height: auto; }
@@ -114,6 +142,7 @@
       <h1>API Documentation</h1>
       <p class="lead">
         NestJS rebuild of the original Express school-management APIs.
+        Endpoints are grouped by module, then by feature section so related APIs are easier to recognise.
         Click an endpoint to see body, query, path, and file parameters extracted from the handlers.
         Most routes are POST under <code>/server</code>. HR stays on <code>/server/hr</code>.
       </p>
@@ -130,6 +159,210 @@
 
     function allParams(r) {
       return [].concat(r.body || [], r.query || [], r.params || [], r.files || []);
+    }
+
+    const SECTION_RULES = {
+      AcademicController: [
+        ["Exam Schedule", /ExamSchedule/i],
+        ["Periods", /Period/i],
+        ["Class Routine", /Routine/i],
+        ["Groups", /Group/i],
+        ["Substitute Teacher", /SubstituteTeacher/i],
+        ["Section", /Section/i],
+        ["Subject", /Subject/i],
+        ["Class Setup", /addClass|getClass$|ClassApprovel|ClassTeacher|ClassCoOrd|ExtraClass/i],
+        ["Session", /Session/i],
+        ["Student Lookup", /getStudentBy/i],
+        ["Attendance", /Attend/i],
+        ["Homework", /HomeWork|Homework/i],
+        ["Classwork", /ClassWork|Classwork/i],
+        ["Class Test", /ClassTest/i],
+        ["Performance", /Performance/i],
+        ["Term Report", /TermReport|TermProject|TermRecords|TermMarks|JrSegment|JrResult|PreTerm/i],
+        ["Grade Marks", /GradeMark/i],
+        ["Lesson Plan", /LessionPlan|LessonPlan/i],
+        ["Department Meeting", /departmentmeeting/i],
+        ["Promotion", /Promot/i],
+        ["Diary", /Diary/i],
+        ["Weekly Schedule", /Weekly/i],
+        ["Result Publish", /resultPublish|ResultPublish|MonthlyReport|MonthlyProgress/i],
+        ["Notification", /notification/i]
+      ],
+      AccountController: [
+        ["Payments", /addpayment|deletePayment|payment/i],
+        ["Reports", /Report|Summary/i],
+        ["Transfers", /AmountTransfer/i],
+        ["Student Income", /StudentIncome|studentIncome/i],
+        ["Income", /Income|income_head|incomehead/i],
+        ["Expense", /Expense|expense/i],
+        ["Petty Cash", /PattyCash/i],
+        ["Accounts", /addAccount|getAccount|AccountTransaction|BankAccount|BulkBank/i],
+        ["Supply Payment", /SupplyPayment/i],
+        ["Budget", /budget/i],
+        ["Karz / Loan", /Karz|karz/i],
+        ["Salary Sheets", /Salary|OverTime/i]
+      ],
+      AdminController: [
+        ["Academic Events", /AcadEvent|AcademicEvent/i],
+        ["Tasks", /task/i],
+        ["Sticky Notes", /note|sticky/i],
+        ["Comments", /comment/i],
+        ["Users", /^users/i],
+        ["Events", /Event/i],
+        ["Daily Tasks", /DailyTask|Dailytask/i],
+        ["Routes", /Route/i],
+        ["Approvals", /Approve/i]
+      ],
+      AuthController: [
+        ["Login", /login|token/i],
+        ["Users", /user|User/i],
+        ["Passwords", /Password|Pass/i],
+        ["Parent Access", /Parent/i]
+      ],
+      DashboardController: [
+        ["Fees Summary", /Fees/i],
+        ["Leave", /Leave/i],
+        ["Expense", /Expense/i],
+        ["Events & News", /EventNews/i],
+        ["Stats", /Stat|Badge/i],
+        ["Daily Classroom", /Daily/i]
+      ],
+      FeesController: [
+        ["SMS", /sms/i],
+        ["Fee Collection", /FeesCollection|Collectedfees|feesCollection|process-payment|v1\/payment|paymentRepicts/i],
+        ["Extra Facilities", /ExtraFacilit|ExtraFee/i],
+        ["Fee Types", /FeeType/i],
+        ["Fee Info", /FeeInfo|getFeeInfo/i],
+        ["Discounts", /Discount/i],
+        ["Due Reports", /due|Due|Fine|Forward/i]
+      ],
+      FrontOfficeController: [
+        ["Employee Contacts", /Employee/i],
+        ["Visitor Book", /Visitor/i],
+        ["Complaint Box", /Complain/i],
+        ["Postal Dispatch", /PostalDispatch/i],
+        ["Postal Receive", /PostalReceive/i],
+        ["Events & News", /EventNews/i]
+      ],
+      HrController: [
+        ["Recruitment", /Recruitment|Evolutor|EvolutionQA|Interview/i],
+        ["Leave", /Leave/i],
+        ["Resignation", /Resign/i],
+        ["Clearance", /Clearance/i],
+        ["Compensation", /Compensation/i],
+        ["Attendance", /Attend/i],
+        ["Employee", /Employee|Dept|Desg|department|designation/i],
+        ["Exit Form", /ExitApplication/i],
+        ["Student Images", /Student/i]
+      ],
+      StaffController: [
+        ["HRIS Letters", /HRISLetter/i],
+        ["Appointment Letter", /Appointment|appointment/i],
+        ["Experience Certificate", /Experience/i],
+        ["NOC Letter", /NOC/i],
+        ["Confirmation Letter", /Confirmation/i],
+        ["Department", /department/i],
+        ["Designation", /Designation|designation/i],
+        ["Title", /Title/i],
+        ["Attendance", /Attendance|Attend/i],
+        ["Employees", /Employee|Teacher|Principle|AdminAll|AHOD|ACCOD/i],
+        ["Recruitment", /Recruitment/i],
+        ["Evaluation", /Evaluat|Evolution/i],
+        ["Salary", /Salary|OverTime|allowance|aitparameter|aitreport/i],
+        ["ID Prefix", /prefix|Prefix|generate/i]
+      ],
+      PaymentController: [
+        ["Online Payment", /payment|callback|initiate/i]
+      ],
+      ProcurementController: [
+        ["Comparative Statement", /requisionCS|requisitionCS|CsRequ|getCSData|csubmit/i],
+        ["Requisition", /requision|requisition|Requision|Requisition/i],
+        ["Approvals", /Approvel|Approve|submit|Submit/i],
+        ["Suppliers", /supplier|Supplier/i],
+        ["Purchase Order", /Po|po|PO/],
+        ["Fund Request", /Fund|fund/i],
+        ["Supply Payment", /SupplyPayment/i]
+      ],
+      SettingsController: [
+        ["Session", /Session/i],
+        ["Users", /User/i],
+        ["Notifications", /Notify|Notification|CallStatus/i],
+        ["Campus", /Campus/i],
+        ["School", /school|School/i],
+        ["Roles", /Role|role/i],
+        ["Privileges", /privilege/i]
+      ],
+      StadController: [
+        ["Hifz Daily Progress", /HifzDaily/i],
+        ["Hifz Term Target", /HifzTerm|HifzSprhalaka|HifzSprTarget/i],
+        ["Incident Reports", /Incident/i],
+        ["Sold Forms", /SoldForm/i],
+        ["Admission", /admission|Admission|Applicant|AdmitCard/i],
+        ["Siblings", /Sibling/i],
+        ["Students", /addstudent|addBulkStudent|StudentAid|StudentView|StudentID|Eligiblestudent|EligibleStudent|PendingStudent|fetchStudent/i],
+        ["House", /House/i],
+        ["Category", /Category/i],
+        ["Halaqa / SPR", /Halaqa|HifzSpr|Halakah|HifzSPR/i],
+        ["Hifz Students", /HifzStudent|StudentHifz/i],
+        ["Clubs", /Club/i],
+        ["Exam Eligibility", /EligibleStudentForExam/i],
+        ["Temporary Pass", /tmpPass/i],
+        ["Transfer Certificate", /TC|Alumni/i]
+      ],
+      StoreInventoryController: [
+        ["Product Types", /ProductType/i],
+        ["Products", /Product(?!Type)/i],
+        ["Transfers", /Transfer/i],
+        ["Library", /Library|Issue|Return/i],
+        ["GRN", /GRN/i],
+        ["MDR", /MDR/i],
+        ["Customers", /Customer/i],
+        ["Quotations", /quotation/i],
+        ["Invoices", /invoice/i],
+        ["Vendors", /vendor|Vendor/i],
+        ["Store Purchases", /StoreProduct|Purchase/i],
+        ["Bills", /bill/i]
+      ],
+      StudentController: [
+        ["Parent Login", /Parent|token|Password/i],
+        ["Dashboard", /Dashboard|PreviousSession/i],
+        ["Work & Tests", /HomeWork|ClassWork|ClassTest/i],
+        ["Attendance", /Attendance/i],
+        ["Subjects & Routine", /Subject|Routine|Diary|ExtraClass/i],
+        ["Library", /Library/i],
+        ["News & Calendar", /EventNews|AcademicCalendar/i],
+        ["Fees", /Income/i],
+        ["Device", /Device/i]
+      ]
+    };
+
+    const SECTION_COLORS = [
+      "#3d9cf0", "#2fbf71", "#f0b429", "#c084fc", "#ef5b5b",
+      "#7dd3fc", "#fb7185", "#34d399", "#f97316", "#a78bfa",
+      "#22d3ee", "#eab308"
+    ];
+
+    function sectionOf(mod, r) {
+      const rules = SECTION_RULES[mod.id] || [];
+      const text = (r.path || "") + " " + (r.handler || "");
+      for (let i = 0; i < rules.length; i++) {
+        if (rules[i][1].test(text)) return rules[i][0];
+      }
+      return "Other";
+    }
+
+    function groupBySection(mod) {
+      const groups = [];
+      const index = {};
+      mod.routes.forEach(r => {
+        const name = sectionOf(mod, r);
+        if (index[name] == null) {
+          index[name] = groups.length;
+          groups.push({ name: name, routes: [] });
+        }
+        groups[index[name]].routes.push(r);
+      });
+      return groups;
     }
 
     function filter() {
@@ -172,23 +405,8 @@
       return n ? n + ' param' + (n === 1 ? '' : 's') : 'no params';
     }
 
-    function render() {
-      const mods = filter();
-      const total = mods.reduce((n, m) => n + m.routes.length, 0);
-      modCount.textContent = mods.length + ' modules';
-      routeCount.textContent = total + ' routes';
-      nav.innerHTML = mods.map(m =>
-        '<a href="#' + m.id + '"><span>' + m.title + '</span><span class="count">' + m.routes.length + '</span></a>'
-      ).join('');
-      if (!mods.length) {
-        content.innerHTML = '<div class="empty">No matching endpoints.</div>';
-        return;
-      }
-      content.innerHTML = mods.map(m => `
-        <section class="module" id="${m.id}">
-          <h2>${m.title}</h2>
-          <p>${m.description} Prefix <code>${m.prefix}</code></p>
-          ${m.routes.map((r, i) => `
+    function renderRoute(m, r, i) {
+      return `
             <div class="route" data-key="${m.id}-${i}">
               <button class="route-head" type="button">
                 <span class="method ${r.method}">${r.method}</span>
@@ -196,10 +414,50 @@
                 <span class="meta">${paramSummary(r)}</span>
               </button>
               <div class="route-body">${paramBlock(r)}</div>
+            </div>`;
+    }
+
+    function render() {
+      const mods = filter();
+      const total = mods.reduce((n, m) => n + m.routes.length, 0);
+      modCount.textContent = mods.length + ' modules';
+      routeCount.textContent = total + ' routes';
+      nav.innerHTML = mods.map(m => {
+        const groups = groupBySection(m);
+        const links = groups.length > 1
+          ? '<div class="nav-sections">' + groups.map(g =>
+              '<a href="#' + m.id + '-' + g.name.replace(/[^A-Za-z0-9]+/g, '-') + '"><span>' + g.name + '</span><span class="count">' + g.routes.length + '</span></a>'
+            ).join('') + '</div>'
+          : '';
+        return '<div class="nav-mod"><a href="#' + m.id + '"><span>' + m.title + '</span><span class="count">' + m.routes.length + '</span></a>' + links + '</div>';
+      }).join('');
+      if (!mods.length) {
+        content.innerHTML = '<div class="empty">No matching endpoints.</div>';
+        return;
+      }
+      content.innerHTML = mods.map(m => {
+        const groups = groupBySection(m);
+        let idx = 0;
+        const body = groups.map((g, gi) => {
+          const color = SECTION_COLORS[gi % SECTION_COLORS.length];
+          const sid = m.id + '-' + g.name.replace(/[^A-Za-z0-9]+/g, '-');
+          const routes = g.routes.map(r => renderRoute(m, r, idx++)).join('');
+          return `
+          <div class="section" id="${sid}" style="--section:${color}">
+            <div class="section-head">
+              <h3>${g.name}</h3>
+              <span class="count">${g.routes.length} route${g.routes.length === 1 ? '' : 's'}</span>
             </div>
-          `).join('')}
-        </section>
-      `).join('');
+            ${routes}
+          </div>`;
+        }).join('');
+        return `
+        <section class="module" id="${m.id}">
+          <h2>${m.title}</h2>
+          <p>${m.description} Prefix <code>${m.prefix}</code></p>
+          ${body}
+        </section>`;
+      }).join('');
     }
 
     content.addEventListener('click', (e) => {
