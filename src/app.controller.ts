@@ -13,4 +13,9 @@ export class AppController {
   docs(@Res() res: Response) {
     res.sendFile(join(process.cwd(), "public", "docs", "index.html"));
   }
+
+  @Get("docs/frontend")
+  frontendDocs(@Res() res: Response) {
+    res.sendFile(join(process.cwd(), "public", "docs", "frontend.html"));
+  }
 }

@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>School Server Frontend Instructions</title>
+  <style>
+    :root {
+      --bg: #0f1419;
+      --panel: #171e27;
+      --panel-2: #1d2630;
+      --line: #2b3644;
+      --text: #e8eef6;
+      --muted: #93a0b0;
+      --accent: #3d9cf0;
+      --get: #2fbf71;
+      --post: #3d9cf0;
+      --put: #f0b429;
+      --patch: #c084fc;
+      --delete: #ef5b5b;
+      --body: #7dd3fc;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font: 14px/1.55 ui-sans-serif, system-ui, sans-serif; }
+    a { color: inherit; }
+    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
+    .layout { display: grid; grid-template-columns: 280px 1fr; min-height: 100vh; }
+    .sidebar { border-right: 1px solid var(--line); background: var(--panel); position: sticky; top: 0; height: 100vh; overflow: auto; padding: 20px 16px; }
+    .brand { font-size: 18px; font-weight: 700; margin: 0 0 4px; }
+    .sub { color: var(--muted); font-size: 12px; margin-bottom: 16px; }
+    .docs-switch { display: flex; gap: 6px; margin-bottom: 16px; }
+    .docs-switch a {
+      flex: 1; text-align: center; text-decoration: none; font-size: 12px; font-weight: 600;
+      padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); color: var(--muted); background: var(--panel-2);
+    }
+    .docs-switch a.active { color: var(--text); border-color: var(--accent); background: rgba(61,156,240,.12); }
+    .nav a {
+      display: block; text-decoration: none; padding: 8px 10px; border-radius: 8px; color: var(--muted);
+    }
+    .nav a:hover, .nav a.active { background: var(--panel-2); color: var(--text); }
+    .nav .group { margin: 14px 0 6px; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+    main { padding: 28px 32px 80px; max-width: 980px; }
+    h1 { margin: 0 0 8px; font-size: 28px; }
+    h2 { margin: 36px 0 10px; font-size: 20px; }
+    h3 { margin: 22px 0 8px; font-size: 15px; }
+    .lead { color: var(--muted); margin-bottom: 24px; max-width: 76ch; }
+    p { color: var(--text); max-width: 76ch; }
+    ul, ol { color: var(--text); max-width: 76ch; padding-left: 20px; }
+    li { margin: 6px 0; }
+    .muted { color: var(--muted); }
+    .stack { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 24px; }
+    .chip { background: var(--panel-2); border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; font-size: 12px; color: var(--muted); }
+    .chip strong { color: var(--text); font-weight: 600; }
+    .card {
+      background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+      padding: 16px 18px; margin: 14px 0;
+    }
+    .rule { border-left: 3px solid var(--accent); padding-left: 14px; }
+    .do { border-left-color: var(--get); }
+    .dont { border-left-color: var(--delete); }
+    pre {
+      margin: 10px 0 0; background: #0b1016; border: 1px solid var(--line); border-radius: 8px;
+      padding: 12px 14px; overflow: auto; color: #d7e3f0; line-height: 1.45; white-space: pre-wrap;
+    }
+    .tree { color: #d7e3f0; }
+    table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 13px; }
+    th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { color: var(--muted); font-size: 12px; font-weight: 600; }
+    .tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .04em; padding: 2px 7px; border-radius: 6px; background: rgba(61,156,240,.15); color: var(--post); }
+    @media (max-width: 860px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { position: relative; height: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">School Server Api</div>
+      <div class="sub">Frontend build instructions</div>
+      <div class="docs-switch">
+        <a href="/docs">API Docs</a>
+        <a class="active" href="/docs/frontend">Frontend</a>
+      </div>
+      <nav class="nav">
+        <div class="group">Start</div>
+        <a href="#stack">Required stack</a>
+        <a href="#create">Create the app</a>
+        <a href="#structure">Folder structure</a>
+        <a href="#proxy">Vite reverse proxy</a>
+        <div class="group">Core setup</div>
+        <a href="#tailwind">Tailwind 4.3</a>
+        <a href="#shadcn">shadcn/ui</a>
+        <a href="#query">React Query</a>
+        <a href="#api">API client</a>
+        <div class="group">UI rules</div>
+        <a href="#reusable">Reusable components</a>
+        <a href="#pages">Page pattern</a>
+        <a href="#forms">Forms and tables</a>
+        <a href="#modules">Map to server modules</a>
+        <a href="#rules">Do and do not</a>
+      </nav>
+    </aside>
+    <main>
+      <h1>Frontend Instructions</h1>
+      <p class="lead">
+        Build the school management frontend against this server.
+        Use the stack below, keep UI in reusable components, and talk to the backend through a Vite proxy.
+        API reference stays at <a href="/docs"><code>/docs</code></a>.
+      </p>
+
+      <div class="stack">
+        <span class="chip"><strong>Vite</strong> + React 18.0.3</span>
+        <span class="chip"><strong>Tailwind</strong> 4.3</span>
+        <span class="chip"><strong>shadcn/ui</strong></span>
+        <span class="chip"><strong>TanStack Query</strong></span>
+        <span class="chip"><strong>Reusable components only</strong></span>
+      </div>
+
+      <h2 id="stack">Required stack</h2>
+      <table>
+        <thead>
+          <tr><th>Layer</th><th>Use</th><th>Do not use</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Bundler</td><td>Vite</td><td>CRA, Next.js, Webpack custom app</td></tr>
+          <tr><td>UI library</td><td>React 18.0.3</td><td>React 19 unless the whole app is upgraded</td></tr>
+          <tr><td>Styling</td><td>Tailwind CSS 4.3 + CSS variables</td><td>Bootstrap, MUI, inline style dumps</td></tr>
+          <tr><td>Components</td><td>shadcn/ui primitives + app wrappers</td><td>Copy-paste one-off markup per page</td></tr>
+          <tr><td>Server state</td><td>TanStack React Query</td><td>fetch inside random useEffect on every page</td></tr>
+          <tr><td>Routing</td><td>React Router</td><td>Window location hacks</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="create">Create the app</h2>
+      <div class="card">
+        <pre>npm create vite@latest school-frontend -- --template react
+cd school-frontend
+npm install react@18.0.3 react-dom@18.0.3
+npm install @tanstack/react-query react-router-dom
+npm install -D tailwindcss@4.3 @tailwindcss/vite</pre>
+      </div>
+      <p class="muted">Pin React to 18.0.3 as requested. Add shadcn after Tailwind is working.</p>
+      <div class="card">
+        <pre>npx shadcn@latest init
+npx shadcn@latest add button input label select textarea table dialog sheet dropdown-menu badge checkbox sonner card tabs separator skeleton</pre>
+      </div>
+
+      <h2 id="structure">Folder structure</h2>
+      <p>Keep pages thin. Put shared UI in <code>src/components</code>. Put API calls in <code>src/api</code>.</p>
+      <pre class="tree">src/
+  api/
+    client.js
+    keys.js
+    modules/
+      auth.js
+      academic.js
+      hr.js
+      fees.js
+  components/
+    ui/                 shadcn primitives
+    common/             app wrappers used everywhere
+      PageHeader.jsx
+      DataTable.jsx
+      FilterBar.jsx
+      StatusBadge.jsx
+      ConfirmDialog.jsx
+      EmptyState.jsx
+      FormSection.jsx
+      FileUpload.jsx
+    layout/
+      AppShell.jsx
+      Sidebar.jsx
+  features/
+    academic/
+    hr/
+    fees/
+  hooks/
+    useAuth.js
+    useServerMutation.js
+  lib/
+    utils.js
+  pages/
+  App.jsx
+  main.jsx</pre>
+
+      <h2 id="proxy">Vite reverse proxy</h2>
+      <p>This preview exposes one port. Proxy <code>/server</code> to the Nest backend so the browser never calls a second origin.</p>
+      <div class="card">
+        <pre>import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
+
+export default defineConfig({
+  plugins: [react(), tailwindcss()],
+  server: {
+    allowedHosts: [".monkeycode-ai.live"],
+    proxy: {
+      "/server": {
+        target: "http://localhost:5000",
+        changeOrigin: true
+      },
+      "/docs": {
+        target: "http://localhost:5000",
+        changeOrigin: true
+      }
+    }
+  }
+});</pre>
+      </div>
+      <p>Frontend calls <code>/server/login</code>, not <code>http://localhost:5000/server/login</code>.</p>
+
+      <h2 id="tailwind">Tailwind 4.3</h2>
+      <p>Use the Vite plugin. Do not use the old <code>tailwind.config.js</code> PostCSS v3 setup unless shadcn generates it.</p>
+      <div class="card">
+        <pre>@import "tailwindcss";
+
+@theme {
+  --font-sans: ui-sans-serif, system-ui, sans-serif;
+  --color-brand: #3d9cf0;
+}</pre>
+      </div>
+      <ul>
+        <li>Style with utility classes.</li>
+        <li>Put repeated class sets into a reusable component, not a comment in three pages.</li>
+        <li>Use shadcn tokens (<code>bg-background</code>, <code>text-muted-foreground</code>, <code>border-border</code>).</li>
+      </ul>
+
+      <h2 id="shadcn">shadcn/ui</h2>
+      <p>shadcn is the primitive layer. Wrap it before using it in pages.</p>
+      <table>
+        <thead>
+          <tr><th>Need</th><th>shadcn primitive</th><th>App wrapper</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Primary / ghost / destructive actions</td><td>Button</td><td>keep as-is, no extra wrapper unless you need icons</td></tr>
+          <tr><td>Text fields</td><td>Input, Textarea, Label</td><td><code>FormField</code></td></tr>
+          <tr><td>Selects</td><td>Select</td><td><code>FormSelect</code></td></tr>
+          <tr><td>Lists</td><td>Table</td><td><code>DataTable</code></td></tr>
+          <tr><td>Create / edit</td><td>Dialog or Sheet</td><td><code>FormDialog</code></td></tr>
+          <tr><td>Delete confirm</td><td>AlertDialog</td><td><code>ConfirmDialog</code></td></tr>
+          <tr><td>Toasts</td><td>sonner</td><td>call from the API helper, not each button</td></tr>
+        </tbody>
+      </table>
+      <div class="card rule">
+        Pages import from <code>src/components/common</code> first.
+        Only import <code>src/components/ui</code> inside those wrappers.
+      </div>
+
+      <h2 id="query">React Query</h2>
+      <p>All server reads and writes go through TanStack Query. No raw <code>axios.get</code> inside page components.</p>
+      <div class="card">
+        <pre>import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: { retry: 1, refetchOnWindowFocus: false }
+  }
+});</pre>
+      </div>
+      <h3>Query keys</h3>
+      <pre>export const keys = {
+  employees: (filters) => ["employees", filters],
+  employee: (id) => ["employee", id],
+  leave: (filters) => ["leave", filters],
+  fees: (filters) => ["fees", filters]
+};</pre>
+      <h3>List query</h3>
+      <pre>export function useEmployees(filters) {
+  return useQuery({
+    queryKey: keys.employees(filters),
+    queryFn: () => post("/server/getAllEmployees", filters)
+  });
+}</pre>
+      <h3>Mutation</h3>
+      <pre>export function useAddEmployee() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (body) => post("/server/addEmployee", body),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["employees"] });
+      toast.success("Employee saved");
+    }
+  });
+}</pre>
+      <div class="card rule do">
+        After create / update / delete, invalidate the matching list key.
+        The table must refresh from React Query, not from local array splicing unless the API returns the new row.
+      </div>
+
+      <h2 id="api">API client</h2>
+      <p>Almost every school API is <strong>POST</strong> under <code>/server</code>. HR core routes stay under <code>/server/hr</code>. Student app routes stay under <code>/server/student</code>.</p>
+      <pre>export async function post(path, body = {}, files) {
+  const hasFiles = Boolean(files);
+  let payload;
+  let headers = {};
+
+  if (hasFiles) {
+    payload = new FormData();
+    Object.entries(body || {}).forEach(([k, v]) => payload.append(k, v ?? ""));
+    Object.entries(files).forEach(([k, file]) => payload.append(k, file));
+  } else {
+    headers["Content-Type"] = "application/json";
+    payload = JSON.stringify(body);
+  }
+
+  const res = await fetch(path, {
+    method: "POST",
+    headers,
+    body: payload
+  });
+  const data = await res.json();
+  if (!res.ok) throw data;
+  return data;
+}</pre>
+      <ul>
+        <li>Send JSON for normal forms.</li>
+        <li>Send <code>FormData</code> when the docs mark a file field (<code>img</code>, <code>media</code>, <code>applicant_cv</code>, <code>scanCopy</code>).</li>
+        <li>Read the API docs body tags. Do not guess field names.</li>
+        <li>Store the login token and send it the same way the existing clients do.</li>
+      </ul>
+
+      <h2 id="reusable">Reusable components</h2>
+      <p>Every screen is assembled from these. Do not rebuild table chrome or form layout inside a page.</p>
+
+      <h3>Required common components</h3>
+      <table>
+        <thead>
+          <tr><th>Component</th><th>Job</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>AppShell</code></td><td>Sidebar, top bar, page outlet</td></tr>
+          <tr><td><code>PageHeader</code></td><td>Title, description, primary action</td></tr>
+          <tr><td><code>FilterBar</code></td><td>Search + campus/class/session filters</td></tr>
+          <tr><td><code>DataTable</code></td><td>Columns, rows, loading skeleton, empty state, row actions</td></tr>
+          <tr><td><code>FormDialog</code></td><td>Create/edit modal with submit/cancel</td></tr>
+          <tr><td><code>FormSection</code></td><td>Grouped fields with a heading</td></tr>
+          <tr><td><code>FormField</code></td><td>Label + control + error text</td></tr>
+          <tr><td><code>StatusBadge</code></td><td>approved / pending / rejected</td></tr>
+          <tr><td><code>ConfirmDialog</code></td><td>Delete and approval confirms</td></tr>
+          <tr><td><code>FileUpload</code></td><td>Single file, shows name, used for CV/images</td></tr>
+          <tr><td><code>EmptyState</code></td><td>No rows yet</td></tr>
+        </tbody>
+      </table>
+
+      <h3>DataTable contract</h3>
+      <pre> &lt;DataTable
+  columns={columns}
+  data={rows}
+  loading={isLoading}
+  error={error}
+  onRowAction={handleAction}
+/&gt;</pre>
+      <ul>
+        <li><code>columns</code> define header, key, and optional render.</li>
+        <li>Loading uses Skeleton, not a blank page.</li>
+        <li>Empty uses <code>EmptyState</code>.</li>
+        <li>Row actions (edit, approve, delete) come from a dropdown, not three raw buttons per row unless the design needs it.</li>
+      </ul>
+
+      <h3>FormField contract</h3>
+      <pre>&lt;FormField label="Employee ID" error={errors.emp_id}&gt;
+  &lt;Input value={form.emp_id} onChange={...} /&gt;
+&lt;/FormField&gt;</pre>
+
+      <div class="card rule dont">
+        Do not paste a 200-line JSX form into a page.
+        Split fields into <code>FormSection</code> blocks and reuse the same field components on create and edit.
+      </div>
+
+      <h2 id="pages">Page pattern</h2>
+      <p>Each feature page follows the same shape:</p>
+      <ol>
+        <li><code>PageHeader</code> with title and Add button</li>
+        <li><code>FilterBar</code> bound to React Query keys</li>
+        <li><code>DataTable</code> from a <code>useQuery</code></li>
+        <li><code>FormDialog</code> for create/edit</li>
+        <li><code>ConfirmDialog</code> for delete/approve</li>
+      </ol>
+      <pre>export function EmployeesPage() {
+  const filters = useFilters();
+  const list = useEmployees(filters);
+  const save = useAddEmployee();
+
+  return (
+    &lt;&gt;
+      &lt;PageHeader title="Employees" action="Add employee" onAction={openCreate} /&gt;
+      &lt;FilterBar value={filters} onChange={setFilters} /&gt;
+      &lt;DataTable columns={columns} data={list.data} loading={list.isLoading} /&gt;
+      &lt;EmployeeFormDialog open={open} onSubmit={save.mutate} /&gt;
+    &lt;/&gt;
+  );
+}</pre>
+      <p class="muted">The page wires data. The dialog owns the form. The table owns display.</p>
+
+      <h2 id="forms">Forms, files, and POST bodies</h2>
+      <ul>
+        <li>Field names must match the API docs body list exactly (<code>emp_id</code>, not <code>employeeId</code>).</li>
+        <li>Select options for campus, class, session, department, designation come from their GET/list APIs, not hardcoded arrays.</li>
+        <li>File fields use <code>FileUpload</code> and the shared <code>post(path, body, files)</code> helper.</li>
+        <li>Disabled submit while <code>isPending</code>.</li>
+      </ul>
+
+      <h2 id="modules">Map screens to server modules</h2>
+      <table>
+        <thead>
+          <tr><th>Frontend area</th><th>Server docs section</th><th>Prefix</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Login / users</td><td>Auth</td><td><code>/server</code></td></tr>
+          <tr><td>Dashboard</td><td>Dashboard</td><td><code>/server</code></td></tr>
+          <tr><td>Classes, routine, results</td><td>Academic</td><td><code>/server</code></td></tr>
+          <tr><td>Admission, Hifz, TC</td><td>STAD</td><td><code>/server</code></td></tr>
+          <tr><td>Employees, letters, salary</td><td>Staff / HRIS</td><td><code>/server</code></td></tr>
+          <tr><td>Recruitment, leave, resignation</td><td>HR</td><td><code>/server/hr</code></td></tr>
+          <tr><td>Fee collection</td><td>Fees</td><td><code>/server</code></td></tr>
+          <tr><td>Accounts / vouchers</td><td>Account</td><td><code>/server</code></td></tr>
+          <tr><td>Requisition / PO</td><td>Procurement</td><td><code>/server</code></td></tr>
+          <tr><td>Stock / library</td><td>Store Inventory</td><td><code>/server</code></td></tr>
+          <tr><td>Visitor / postal</td><td>Front Office</td><td><code>/server</code></td></tr>
+          <tr><td>Parent / student app</td><td>Student</td><td><code>/server/student</code></td></tr>
+        </tbody>
+      </table>
+      <p>Build one feature folder per table row. Reuse <code>DataTable</code> and <code>FormDialog</code> in all of them.</p>
+
+      <h2 id="rules">Do and do not</h2>
+      <div class="card rule do">
+        <strong>Do</strong>
+        <ul>
+          <li>Reuse <code>PageHeader</code>, <code>DataTable</code>, <code>FormDialog</code>, <code>FormField</code>, <code>StatusBadge</code>.</li>
+          <li>Keep API functions next to React Query hooks.</li>
+          <li>Match POST paths and body keys from the API docs.</li>
+          <li>Proxy <code>/server</code> through Vite.</li>
+          <li>Invalidate queries after mutations.</li>
+        </ul>
+      </div>
+      <div class="card rule dont">
+        <strong>Do not</strong>
+        <ul>
+          <li>Build a new table layout on each page.</li>
+          <li>Call <code>fetch</code> inside a page component.</li>
+          <li>Hardcode the backend host in UI code.</li>
+          <li>Install MUI / Ant Design / Bootstrap beside shadcn.</li>
+          <li>Duplicate create and edit forms as two different files when one dialog can do both.</li>
+        </ul>
+      </div>
+
+      <p class="muted">API field lists and routes: <a href="/docs">/docs</a></p>
+    </main>
+  </div>
+</body>
+</html>

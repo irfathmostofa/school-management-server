@@ -31,6 +31,12 @@
     .sidebar { border-right: 1px solid var(--line); background: var(--panel); position: sticky; top: 0; height: 100vh; overflow: auto; padding: 20px 16px; }
     .brand { font-size: 18px; font-weight: 700; margin: 0 0 4px; }
     .sub { color: var(--muted); font-size: 12px; margin-bottom: 16px; }
+    .docs-switch { display: flex; gap: 6px; margin-bottom: 16px; }
+    .docs-switch a {
+      flex: 1; text-align: center; text-decoration: none; font-size: 12px; font-weight: 600;
+      padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); color: var(--muted); background: var(--panel-2);
+    }
+    .docs-switch a.active { color: var(--text); border-color: var(--accent); background: rgba(61,156,240,.12); }
     input[type="search"] {
       width: 100%; background: var(--panel-2); border: 1px solid var(--line); color: var(--text);
       border-radius: 8px; padding: 10px 12px; outline: none;
@@ -131,6 +137,10 @@
     <aside class="sidebar">
       <div class="brand">School Server Api</div>
       <div class="sub">School management endpoints</div>
+      <div class="docs-switch">
+        <a class="active" href="/docs">API Docs</a>
+        <a href="/docs/frontend">Frontend</a>
+      </div>
       <input id="q" type="search" placeholder="Search path, method, handler, param..." />
       <div class="stats">
         <span class="chip" id="modCount"></span>
