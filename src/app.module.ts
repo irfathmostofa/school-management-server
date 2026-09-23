@@ -17,6 +17,7 @@ import { DashboardModule } from "./modules/dashboard/dashboard.module";
 import { FeesModule } from "./modules/fees/fees.module";
 import { FrontOfficeModule } from "./modules/front-office/front-office.module";
 import { HrModule } from "./modules/hr/hr.module";
+import { AttendanceDeviceModule } from "./modules/attendance-device/attendance-device.module";
 import { PaymentModule } from "./modules/payment/payment.module";
 import { ProcurementModule } from "./modules/procurement/procurement.module";
 import { SettingsModule } from "./modules/settings/settings.module";
@@ -57,6 +58,7 @@ import { AppController } from "./app.controller";
     FeesModule,
     FrontOfficeModule,
     HrModule,
+    AttendanceDeviceModule,
     PaymentModule,
     ProcurementModule,
     SettingsModule,
