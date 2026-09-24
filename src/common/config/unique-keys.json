@@ -44,6 +44,23 @@
       "date"
     ]
   ],
+  "attendance_device": [
+    [
+      "empID",
+      "date"
+    ]
+  ],
+  "attendance_device_setting": [
+    [
+      "id"
+    ]
+  ],
+  "student_attendance_device": [
+    [
+      "student_id",
+      "attendance_date"
+    ]
+  ],
   "class_coordinator": [
     [
       "class",
