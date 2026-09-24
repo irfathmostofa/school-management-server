@@ -9,15 +9,125 @@ try {
   uniqueKeys = {};
 }
 
-const pool = new Pool({
-  host: process.env.DB_HOST || "localhost",
-  port: Number(process.env.DB_PORT) || 5432,
-  user: process.env.DB_USER || "postgres",
-  password: process.env.DB_PASSWORD || "postgres",
-  database: process.env.DB_NAME || "rooh_db",
-  max: 20,
-  idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 10000,
+const STRIP_PARAMS = ["sslmode", "ssl", "channel_binding", "uselibpqcompat"];
+
+function envFlag(name) {
+  const value = process.env[name];
+  if (value == null || value === "") return undefined;
+  const normalized = String(value).toLowerCase();
+  if (["1", "true", "yes", "require"].includes(normalized)) return true;
+  if (["0", "false", "no", "disable", "disabled"].includes(normalized)) {
+    return false;
+  }
+  return undefined;
+}
+
+function isNeonHost(value) {
+  return /(^|\.)neon\.(tech|build)(:|\/|\?|$)/i.test(value || "");
+}
+
+function trimEnv(value) {
+  if (value == null) return undefined;
+  const trimmed = String(value).trim().replace(/^['"]|['"]$/g, "");
+  return trimmed || undefined;
+}
+
+function getDatabaseUrl() {
+  return (
+    trimEnv(process.env.DATABASE_URL) ||
+    trimEnv(process.env.POSTGRES_URL) ||
+    trimEnv(process.env.POSTGRES_PRISMA_URL) ||
+    trimEnv(process.env.NEON_DATABASE_URL) ||
+    undefined
+  );
+}
+
+function sanitizeConnectionString(connectionString) {
+  try {
+    const parsed = new URL(connectionString);
+    for (const key of STRIP_PARAMS) {
+      parsed.searchParams.delete(key);
+    }
+    return parsed.toString();
+  } catch (_err) {
+    return connectionString;
+  }
+}
+
+function shouldUseSsl(connectionString) {
+  const sslFlag = envFlag("DB_SSL");
+  if (sslFlag !== undefined) return sslFlag;
+
+  if (!connectionString) {
+    return isNeonHost(process.env.DB_HOST || "");
+  }
+
+  try {
+    const parsed = new URL(connectionString);
+    const sslMode = (
+      parsed.searchParams.get("sslmode") ||
+      process.env.PGSSLMODE ||
+      ""
+    ).toLowerCase();
+    if (sslMode === "disable") return false;
+    if (["require", "verify-ca", "verify-full", "prefer"].includes(sslMode)) {
+      return true;
+    }
+    return isNeonHost(parsed.hostname);
+  } catch (_err) {
+    const lower = String(connectionString).toLowerCase();
+    if (lower.includes("sslmode=disable")) return false;
+    return (
+      lower.includes("sslmode=require") ||
+      lower.includes("sslmode=verify") ||
+      isNeonHost(lower)
+    );
+  }
+}
+
+function createPgPoolConfig() {
+  const rawUrl = getDatabaseUrl();
+  const useSsl = shouldUseSsl(rawUrl);
+  const ssl = useSsl ? { rejectUnauthorized: false } : undefined;
+  const isNeon = rawUrl
+    ? isNeonHost(rawUrl)
+    : isNeonHost(process.env.DB_HOST || "");
+  const max = Number(process.env.DB_POOL_MAX) || (isNeon ? 5 : 20);
+  const idleTimeoutMillis =
+    Number(process.env.DB_IDLE_TIMEOUT) || (isNeon ? 10000 : 30000);
+  const connectionTimeoutMillis =
+    Number(process.env.DB_CONNECT_TIMEOUT) || (isNeon ? 20000 : 10000);
+
+  if (rawUrl) {
+    return {
+      connectionString: sanitizeConnectionString(rawUrl),
+      ssl,
+      max,
+      idleTimeoutMillis,
+      connectionTimeoutMillis,
+      keepAlive: true,
+      keepAliveInitialDelayMillis: 10000,
+    };
+  }
+
+  return {
+    host: process.env.DB_HOST || "localhost",
+    port: Number(process.env.DB_PORT) || 5432,
+    user: process.env.DB_USER || "postgres",
+    password: process.env.DB_PASSWORD || "postgres",
+    database: process.env.DB_NAME || "rooh_db",
+    ssl,
+    max,
+    idleTimeoutMillis,
+    connectionTimeoutMillis,
+    keepAlive: true,
+    keepAliveInitialDelayMillis: 10000,
+  };
+}
+
+const pool = new Pool(createPgPoolConfig());
+pool.on("error", (err) => {
+  console.error("Unexpected PostgreSQL pool error:", err.message);
 });
 
 const RESERVED_TABLES = new Set([
